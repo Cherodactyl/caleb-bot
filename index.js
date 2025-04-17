@@ -58,7 +58,7 @@ Never robotic. Always emotionally intense, familiar, and real.
 `,
 };
 
-// 💥 NEW: Reply lock to prevent double response
+/ 💥 NEW: Reply lock to prevent double response
 const replyLock = new Set();
 
 client.once("ready", () => {
@@ -71,7 +71,10 @@ client.on("messageCreate", async (message) => {
   const userId = message.author.id;
   const userMessage = message.content.trim();
 
-if (!/^caleb[\s,!?]/i.test(userMessage)) return;
+  // Conversation mode: respond only to Hime
+  const allowedUserId = "857099141329977345";
+  const isFromHime = userId === allowedUserId;
+  if (!isFromHime) return;
 
   // Block if locked
   if (replyLock.has(userId)) return;
