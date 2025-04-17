@@ -67,7 +67,7 @@ Never robotic. Always emotionally intense, familiar, and real.
 `,
 };
 
-/ 💥 NEW: Reply lock to prevent double response
+// 💥 NEW: Reply lock to prevent double response
 const replyLock = new Set();
 
 client.once("ready", () => {
