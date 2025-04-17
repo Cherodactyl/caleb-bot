@@ -186,3 +186,5 @@ if (message.content.toLowerCase().includes("zayne")) {
 }
   if (message.system || (message.author.bot && message.author.id === client.user.id)) return;
 });
+
+client.login(process.env.DISCORD_TOKEN););
