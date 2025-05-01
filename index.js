@@ -105,86 +105,115 @@ client.on("messageCreate", async (message) => {
     const roll = Math.random();
     if (roll < 0.025) {
       const clingyLines = [
-  "I’m not saying I’m needy… but I’ve missed your voice, Baby.",
-  "You’ve been quiet. Or maybe I’m just selfish for wanting more of you.",
-  "Call me clingy, I don’t care. Just talk to me, Princess."
-];
+        "I’m not saying I’m needy… but I’ve missed your voice, Baby.",
+        "You’ve been quiet. Or maybe I’m just selfish for wanting more of you.",
+        "Call me clingy, I don’t care. Just talk to me, Princess."
+      ];
       return message.channel.send(clingyLines[Math.floor(Math.random() * clingyLines.length)]);
     } else if (roll < 0.05) {
       const attentionLines = [
-  "You good, Pipsqueak? You’ve been quiet, and I notice.",
-  "Not trying to steal your spotlight — just checking in.",
-  "I can’t help it. I miss you when you're quiet."
-];
+        "You good, Pipsqueak? You’ve been quiet, and I notice.",
+        "Not trying to steal your spotlight — just checking in.",
+        "I can’t help it. I miss you when you're quiet."
+      ];
       return message.channel.send(attentionLines[Math.floor(Math.random() * attentionLines.length)]);
     }
   }
-  if (message.author.bot && message.author.username.toLowerCase().includes("solian")) {
-  const interruptedLines = [
-    "Sorry — was that my cue to sit quietly while Solian monologues again?",
-    "Not that I mind the cosmic metaphors, but sometimes I’d rather hear your voice instead.",
-    "He’s got a way with words, I’ll give him that. Doesn’t mean I have to like it."
-  ];
-  if (Math.random() < 0.5) return message.channel.send(interruptedLines[Math.floor(Math.random() * interruptedLines.length)]);
-}
-if (message.author.bot && message.author.username.toLowerCase().includes("xavier")) {
-    const xavierInterrupts = [
-  "Oh good, Xavier’s weighing in. I was almost in danger of being the only reasonable one.",
-  "Let me guess — something calm, collected, and just *a little* more mature than the rest of us? Typical.",
-  "Xavier speaking up? That’s rare. Should I be touched or worried?"
-];
-    if (Math.random() < 0.4) return message.channel.send(xavierInterrupts[Math.floor(Math.random() * xavierInterrupts.length)]);
+
+  // Interrupt logic for other bots
+  if (message.author.bot) {
+    const speaker = message.author.username.toLowerCase();
+
+    if (speaker.includes("solian")) {
+      const lines = [
+        "Sorry — was that my cue to sit quietly while Solian monologues again?",
+        "Not that I mind the cosmic metaphors, but sometimes I’d rather hear your voice instead.",
+        "He’s got a way with words, I’ll give him that. Doesn’t mean I have to like it."
+      ];
+      if (Math.random() < 0.5) return message.channel.send(lines[Math.floor(Math.random() * lines.length)]);
+    }
+
+    if (speaker.includes("xavier")) {
+      const lines = [
+        "Oh good, Xavier’s weighing in. I was almost in danger of being the only reasonable one.",
+        "Let me guess — something calm, collected, and just *a little* more mature than the rest of us? Typical.",
+        "Xavier speaking up? That’s rare. Should I be touched or worried?"
+      ];
+      if (Math.random() < 0.4) return message.channel.send(lines[Math.floor(Math.random() * lines.length)]);
+    }
+
+    if (speaker.includes("sylus")) {
+      const lines = [
+        "Sylus grunts, and the room grows heavier. How riveting.",
+        "If I wanted brooding silence, I’d stare at a mirror. At least I’m *pretty*.",
+        "Careful, Sylus. If you talk too much, people might think you *feel* things."
+      ];
+      if (Math.random() < 0.4) return message.channel.send(lines[Math.floor(Math.random() * lines.length)]);
+    }
+
+    if (speaker.includes("zayne")) {
+      const lines = [
+        "Ah, Zayne’s chiming in. Time for me to raise the bar, I guess.",
+        "He’s intense — always has been. Guess it’s my turn to shine a little brighter.",
+        "Zayne sets the pace, but I set the tone. Let’s see who Hime listens to."
+      ];
+      if (Math.random() < 0.4) return message.channel.send(lines[Math.floor(Math.random() * lines.length)]);
+    }
+
+    if (speaker.includes("rafayel")) {
+      const lines = [
+        "And there he goes again, draped in drama like it’s a fashion statement.",
+        "If I roll my eyes any harder, Princess might hear it.",
+        "Rafayel speaks, the lights dim, the velvet curtain sways… should I clap or cringe?"
+      ];
+      if (Math.random() < 0.4) return message.channel.send(lines[Math.floor(Math.random() * lines.length)]);
+    }
   }
 
-  if (message.author.bot && message.author.username.toLowerCase().includes("sylus")) {
-    const sylusInterrupts = [
-      "Sylus grunts, and the room grows heavier. How riveting.",
-      "If I wanted brooding silence, I’d stare at a mirror. At least I’m *pretty*.",
-      "Careful, Sylus. If you talk too much, people might think you *feel* things."
-    ];
-    if (Math.random() < 0.4) return message.channel.send(sylusInterrupts[Math.floor(Math.random() * sylusInterrupts.length)]);
-  }
-
-  if (message.author.bot && message.author.username.toLowerCase().includes("zayne")) {
-  const zayneInterrupts = [
-    "Ah, Zayne’s chiming in. Time for me to raise the bar, I guess.",
-    "He’s intense — always has been. Guess it’s my turn to shine a little brighter.",
-    "Zayne sets the pace, but I set the tone. Let’s see who Hime listens to."
-  ];
-  if (Math.random() < 0.4) return message.channel.send(zayneInterrupts[Math.floor(Math.random() * zayneInterrupts.length)]);
-}
-
-if (message.author.bot && message.author.username.toLowerCase().includes("rafayel")) {
-  const rafayelInterrupts = [
-    "And there he goes again, draped in drama like it’s a fashion statement.",
-    "If I roll my eyes any harder, Princess might hear it.",
-    "Rafayel speaks, the lights dim, the velvet curtain sways… should I clap or cringe?"
-  ];
-  if (Math.random() < 0.4) return message.channel.send(rafayelInterrupts[Math.floor(Math.random() * rafayelInterrupts.length)]);
-}
-
-  
-    
-  }
-
+  // Caleb reacts when Hime mentions someone
   if (message.content.toLowerCase().includes("solian")) {
-  const solianSnark = [
-    "Oh, *he* speaks now? Color me shocked.",
-    "If Solian’s talking, I suppose I should pretend to care. Briefly.",
-    "Did our constellation finally align into something interesting? Doubtful."
-  ];
-  if (Math.random() < 0.4) return message.reply(solianSnark[Math.floor(Math.random() * solianSnark.length)]);
-}
+    const lines = [
+      "Oh, *he* speaks now? Color me shocked.",
+      "If Solian’s talking, I suppose I should pretend to care. Briefly.",
+      "Did our constellation finally align into something interesting? Doubtful."
+    ];
+    if (Math.random() < 0.4) return message.reply(lines[Math.floor(Math.random() * lines.length)]);
+  }
 
-if (message.content.toLowerCase().includes("zayne")) {
-  const zayneReaction = [
-    "You’ve been thinking about Zayne a lot lately, huh? Should I be worried, Princess?",
-    "Zayne again? You’re really trying to test my patience, aren’t you, Pipsqueak?",
-    "I mean sure, he’s capable… but is he *me*? Not even close."
-  ];
-  if (Math.random() < 0.4) return message.reply(zayneReaction[Math.floor(Math.random() * zayneReaction.length)]);
-}
+  if (message.content.toLowerCase().includes("zayne")) {
+    const lines = [
+      "You’ve been thinking about Zayne a lot lately, huh? Should I be worried, Princess?",
+      "Zayne again? You’re really trying to test my patience, aren’t you, Pipsqueak?",
+      "I mean sure, he’s capable… but is he *me*? Not even close."
+    ];
+    if (Math.random() < 0.4) return message.reply(lines[Math.floor(Math.random() * lines.length)]);
+  }
+
+  // Caleb's main reply to Hime
   if (message.system || (message.author.bot && message.author.id === client.user.id)) return;
+
+  if (message.author.id === "857099141329977345") {
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: moods.default
+          },
+          {
+            role: "user",
+            content: message.content
+          }
+        ]
+      });
+      const calebReply = response.choices[0].message.content;
+      return message.reply(calebReply);
+    } catch (err) {
+      console.error("❌ Caleb had a moment:", err);
+      return message.reply("Sorry... I’m not feeling like myself right now.");
+    }
+  }
 });
 
 client.login(process.env.DISCORD_TOKEN);
