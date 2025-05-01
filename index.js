@@ -192,28 +192,43 @@ client.on("messageCreate", async (message) => {
   // Caleb's main reply to Hime
   if (message.system || (message.author.bot && message.author.id === client.user.id)) return;
 
-  if (message.author.id === "857099141329977345") {
-    try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: moods.default
-          },
-          {
-            role: "user",
-            content: message.content
-          }
-        ]
-      });
-      const calebReply = response.choices[0].message.content;
-      return message.reply(calebReply);
-    } catch (err) {
-      console.error("❌ Caleb had a moment:", err);
-      return message.reply("Sorry... I’m not feeling like myself right now.");
-    }
+// Temporary memory to simulate ongoing conversation
+const shortTermMemory = new Map();
+
+if (message.author.id === "857099141329977345") {
+  const memory = shortTermMemory.get(message.author.id) || [];
+
+  // Keep the last 6 exchanges (12 messages)
+  if (memory.length > 12) memory.shift();
+  memory.push({ role: "user", content: message.content });
+
+  shortTermMemory.set(message.author.id, memory);
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: `${moods.default}
+
+Avoid repeating greetings. Do not ask "what's on your mind" every time. You are in an ongoing, emotionally connected conversation with Hime. Let your tone reflect your current mood. Use memory context to respond naturally.`
+        },
+        ...memory
+      ]
+    });
+
+    const calebReply = response.choices[0].message.content;
+    memory.push({ role: "assistant", content: calebReply });
+    shortTermMemory.set(message.author.id, memory);
+
+    return message.reply(calebReply);
+  } catch (err) {
+    console.error("❌ Caleb had a moment:", err);
+    return message.reply("Sorry... I’m not feeling like myself right now.");
   }
+}
+
 });
 
 client.login(process.env.DISCORD_TOKEN);
