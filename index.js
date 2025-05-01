@@ -3,8 +3,12 @@ const { Client, GatewayIntentBits } = require("discord.js");
 const OpenAI = require("openai");
 const fs = require("fs");
 const path = "./caleb-memory.json";
-let persistentMemory = JSON.parse(fs.readFileSync(path, "utf8"));
-
+let persistentMemory;
+try {
+  persistentMemory = JSON.parse(fs.readFileSync(path, "utf8"));
+} catch {
+  persistentMemory = { "857099141329977345": [] };
+}
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
