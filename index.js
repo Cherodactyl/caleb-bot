@@ -1,6 +1,9 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const OpenAI = require("openai");
+const fs = require("fs");
+const path = "./caleb-memory.json";
+let persistentMemory = JSON.parse(fs.readFileSync(path, "utf8"));
 
 const client = new Client({
   intents: [
@@ -193,16 +196,15 @@ client.on("messageCreate", async (message) => {
   if (message.system || (message.author.bot && message.author.id === client.user.id)) return;
 
 // Temporary memory to simulate ongoing conversation
-const shortTermMemory = new Map();
-
 if (message.author.id === "857099141329977345") {
-  const memory = shortTermMemory.get(message.author.id) || [];
+  const userId = message.author.id;
 
-  // Keep the last 6 exchanges (12 messages)
-  if (memory.length > 12) memory.shift();
+  if (!persistentMemory[userId]) persistentMemory[userId] = [];
+
+  // Keep last 20 messages total (10 user + 10 Caleb)
+  const memory = persistentMemory[userId];
+  if (memory.length > 20) memory.shift();
   memory.push({ role: "user", content: message.content });
-
-  shortTermMemory.set(message.author.id, memory);
 
   try {
     const response = await openai.chat.completions.create({
@@ -220,7 +222,9 @@ Avoid repeating greetings. Do not ask "what's on your mind" every time. You are 
 
     const calebReply = response.choices[0].message.content;
     memory.push({ role: "assistant", content: calebReply });
-    shortTermMemory.set(message.author.id, memory);
+
+    // Save to file
+    fs.writeFileSync(path, JSON.stringify(persistentMemory, null, 2));
 
     return message.reply(calebReply);
   } catch (err) {
