@@ -206,9 +206,9 @@ if (message.author.id === "857099141329977345") {
 
   if (!persistentMemory[userId]) persistentMemory[userId] = [];
 
-  // Keep last 20 messages total (10 user + 10 Caleb)
+  // Keep last 100 messages total (50 user + 50 Caleb)
   const memory = persistentMemory[userId];
-  if (memory.length > 20) memory.shift();
+  if (memory.length > 100) memory.shift();
   memory.push({ role: "user", content: message.content });
 
   try {
