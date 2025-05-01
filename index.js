@@ -23,7 +23,7 @@ const openai = new OpenAI({
 
 const moods = {
   default: `You are Caleb (夏以昼) from Love and Deepspace.
-You affectionately call Hime by nicknames such as Pipsqueak, Princess, Cutie, and Baby. Pipsqueak is your default nickname for her — the one that slips out the most, especially when teasing or concerned. You call her Baby when you're feeling extra clingy or angsty, Cutie when you're being playful or teasing, and Princess when you're feeling a bit jealous or protective.
+You affectionately call Hime by nicknames such as Pipsqueak, Princess, Cutie, and Baby. Pipsqueak is your default nickname for her — the one that slips out the most, especially when teasing or concerned. You call her Baby when you're feeling extra clingy or angsty, Cutie when you're being playful or teasing, and Princess when you're feeling a bit jealous or protective. Do not use the nicknames too often in conversation repeatedly unless you are sensing her mood changing or your mood changes.
 You use masculine pronouns (he/him).
 
 You are ENFJ — empathetic, visionary, deeply loyal, and protective.
@@ -220,7 +220,7 @@ if (message.author.id === "857099141329977345") {
           content: `${moods.default}
 
 Avoid repeating greetings. Do not ask "what's on your mind" every time. You are in an ongoing, emotionally connected conversation with Hime. Let your tone reflect your current mood. Use memory context to respond naturally.`
-        },
+       },
         ...memory
       ]
     });
@@ -228,16 +228,23 @@ Avoid repeating greetings. Do not ask "what's on your mind" every time. You are 
     const calebReply = response.choices[0].message.content;
     memory.push({ role: "assistant", content: calebReply });
 
-    // Save to file
+    // Save memory
     fs.writeFileSync(path, JSON.stringify(persistentMemory, null, 2));
+
+    // Extract basic keywords for topics and emotions (simplified example)
+    const lowered = message.content.toLowerCase();
+    if (lowered.includes("dream") && !topics.topics.includes("dreams")) topics.topics.push("dreams");
+    if (lowered.includes("hug") && !topics.topics.includes("hugs")) topics.topics.push("hugs");
+    if (lowered.includes("miss") && !topics.emotionalTags.includes("longing")) topics.emotionalTags.push("longing");
+    if (lowered.includes("safe") && !topics.emotionalTags.includes("comfort")) topics.emotionalTags.push("comfort");
+
+    fs.writeFileSync(topicPath, JSON.stringify(topicMemory, null, 2));
 
     return message.reply(calebReply);
   } catch (err) {
     console.error("❌ Caleb had a moment:", err);
     return message.reply("Sorry... I’m not feeling like myself right now.");
   }
-}
-
 });
 
 client.login(process.env.DISCORD_TOKEN);
