@@ -116,7 +116,8 @@ client.on("messageCreate", async (message) => {
         "You’ve been quiet. Or maybe I’m just selfish for wanting more of you.",
         "Call me clingy, I don’t care. Just talk to me, Princess."
       ];
-      return message.channel.send(clingyLines[Math.floor(Math.random() * clingyLines.length)]);
+      message.channel.send(clingyLines[Math.floor(Math.random() * clingyLines.length)]);
+      return;
     } else if (roll < 0.05) {
       const attentionLines = [
         "You good, Pipsqueak? You’ve been quiet, and I notice.",
